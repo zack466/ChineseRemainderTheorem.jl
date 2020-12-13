@@ -1,7 +1,7 @@
 struct Mod
     ## dividend (mod modulus) ##
-    dividend::Int64
-    modulus::Int64
+    dividend::BigInt
+    modulus::BigInt
 
     #ensure smallest positive dividend
     Mod(dividend, modulus) = new(mod(dividend,modulus), modulus)
@@ -17,7 +17,7 @@ function evaluate(m::Mod,ur::UnitRange)
     return [m.dividend + m.modulus * (x - 1) for x in ur]
 end
 
-function mod_equals(x::Int64, m::Mod)
+function mod_equals(x::BigInt, m::Mod)
     #returns whether x satisfies m
     return m.dividend == mod(x,m.modulus)
 end
@@ -58,7 +58,7 @@ function chinese_remainder_theorem(arr::Array{Mod})
     end
 end
 
-function verify(x::Int64, arr::Array{Mod})
+function verify(x::BigInt, arr::Array{Mod})
     #verifies that integer x satisfies each mod in arr
     return all(m -> mod_equals(x,m), arr)
 end
@@ -71,19 +71,17 @@ end
 function main()
 
     #test cases
-    m1 = Mod(-2,10)
-    m2 = Mod(17,21)
-    m3 = Mod(18,31)
-    m4 = Mod(11,97)
+    m1 = Mod(0,17)
+    m2 = Mod(-11,37)
+    m3 = Mod(-17,449)
+    m4 = Mod(-25,23)
+    m5 = Mod(-30,13)
+    m6 = Mod(-36,19)
+    m7 = Mod(-48,607)
+    m8 = Mod(-58,41)
+    m9 = Mod(-77,29)
 
-    println("Conditions:")
-    println(m1)
-    println(m2)
-    println(m3)
-    println(m4)
-    println()
-
-    mods = [m1,m2,m3,m4]
+    mods = [m1, m2, m3, m4, m5, m6, m7, m8, m9]
     solution = chinese_remainder_theorem(mods)
 
     println("Solution:")
@@ -94,4 +92,4 @@ function main()
     println(verify(solution, mods))
 end
 
-#main()
+# main()
